@@ -3,6 +3,7 @@
 #include <fstream>
 #include <tuple>
 #include <vector>
+#include <filesystem>
 
 // because C++ handles modulo weird
 int mod100(int x){
@@ -25,11 +26,11 @@ std::vector<std::tuple<char, int>> getInput(std::string filename){
     return turns;
 }
 
-int part1(){
+int part1(std::filesystem::path file){
     int zeroes = 0;
     int value = 50;
 
-    auto input = getInput("../day1/inputs/part1.txt");
+    auto input = getInput(file);
     for (auto [dir, turn] : input) {
         if (dir == 'R'){
             value += turn;
@@ -46,11 +47,11 @@ int part1(){
     return zeroes;
 }
 
-int part2(){
+int part2(std::filesystem::path file){
     int zeroes = 0;
     int position = 50;
 
-    auto input = getInput("../day1/inputs/part1.txt");
+    auto input = getInput(file);
     for (auto [dir, turn] : input){
         if (dir == 'R'){
             for (size_t i = 0; i < turn; ++i){
@@ -66,8 +67,8 @@ int part2(){
     }
     return zeroes;
 }
-int main(){
 
-    std::cout << part1() << std::endl;
-    std::cout << part2() << std::endl;
+int main(int argc, char** argv){
+    std::cout << part1(argv[1]) << std::endl;
+    std::cout << part2(argv[1]) << std::endl;
 }

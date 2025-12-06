@@ -23,7 +23,6 @@ std::vector<std::string> parse(std::filesystem::path file){
 }
 
 std::vector<std::pair<int, int>> neighbors(int row, int col, int nrows, int ncols){
-    // All points
     // Assume that we can spill over the edges. Rows are 0-nrows-1 and cols are 0 -> ncols-1
     std::vector<std::pair<int, int>> edges {{row-1, col-1}, {row-1, col}, {row-1, col+1}, 
                                             {row, col - 1},               {row, col + 1},

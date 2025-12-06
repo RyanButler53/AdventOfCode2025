@@ -24,20 +24,9 @@ std::vector<std::pair<long, long>> parseInput(std::string filename){
     for (const auto s : std::views::split(v, delim)){
         std::string_view sview(s);
         size_t dash = sview.find('-');
-        try
-        {
-            long  first = stol(std::string(sview.substr(0, dash)));
-            long second = stol(std::string(sview.substr(dash+1)));
-            input.push_back({first, second}); 
-
-        }
-        catch(const std::exception& e)
-        {
-            std::cout << std::string(sview.substr(0, dash)) << " " << std::string(sview.substr(dash+1)) << std::endl;
-            std::cerr << e.what() << '\n';
-        }
-        
-
+        long  first = stol(std::string(sview.substr(0, dash)));
+        long second = stol(std::string(sview.substr(dash+1)));
+        input.push_back({first, second});
     }  
     return input;
 }
@@ -87,7 +76,6 @@ bool checkInvalid2(uint64_t x){
                 return true;
             }
         }
-       
     }
     return false;
 }
@@ -105,7 +93,7 @@ uint64_t solve(std::filesystem::path filename,std::function<bool(uint64_t)> func
     return sum;
 }
 
-int main(){
-    std::cout << solve("../day2/inputs/part1.txt", checkInvalid) << std::endl;
-    std::cout << solve("../day2/inputs/part1.txt", checkInvalid2) << std::endl;
+int main(int argc, char** argv){
+    std::cout << solve(argv[1], checkInvalid) << std::endl;
+    std::cout << solve(argv[1], checkInvalid2) << std::endl;
 }

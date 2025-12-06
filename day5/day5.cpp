@@ -69,9 +69,7 @@ int64_t part2(std::filesystem::path file){
     int64_t total = 0;
     int64_t current = bounds.begin()->first;
     int64_t maxValue = bounds.back().second;
-    std::cout << "Max Value" <<  maxValue << std::endl;
     while (current < maxValue){
-        // std::cout << "Current Value: " << current << std::endl;
         std::vector<IntervalID> overlaps = tree.findOverlaps(current);
         auto compareMaxes = [](IntervalID i1, IntervalID i2){
             return i1.second > i2.second;
@@ -79,19 +77,16 @@ int64_t part2(std::filesystem::path file){
         // minimum max value of an interval that contains this value 
         if (overlaps.empty()){
             current = std::ranges::upper_bound(bounds, IntervalID{current, current})->first;
-            ++total; // The current match never gets counted
+            ++total; // Count the tiny match
             continue;
         }
         int64_t minMax = std::min_element(overlaps.begin(), overlaps.end(), compareMaxes)->second;
         if (minMax == current){ // there is no other corresponding one. Need to increment to the NEXT interval
             current = std::ranges::upper_bound(bounds, IntervalID{current, current})->first;
-            // std::cout << "Matches at " << current << std::endl;
             ++total; // The current match never gets counted
             continue;
         }
         total += minMax - current;
-        // std::cout << minMax << " " << current << std::endl;
-
         current = minMax;
     }
     ++total;

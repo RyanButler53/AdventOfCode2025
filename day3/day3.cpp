@@ -44,16 +44,6 @@ uint64_t part1(std::filesystem::path p){
     return sum;
 }
 
-// gets the indexes of all 
-std::vector<size_t> findall(std::vector<int>& batteries, int n){
-    std::vector<size_t> ret;
-    for (size_t i = 0; i < batteries.size(); ++i){
-        if (batteries[i] == n){
-            ret.push_back(i);
-        }
-    } // put the later (less valuable ones) at the end
-    return ret;
-}
 // Memoize:
 int64_t joltageHelper(const std::vector<int>& batteries, size_t i, size_t n, std::map<std::pair<size_t, size_t>, int64_t>& memo){
     // Use memo if possible
@@ -101,6 +91,5 @@ uint64_t part2(std::filesystem::path p){
 int main(int argc, char** argv){
 
     std::cout << part1(argv[1]) << std::endl; 
-    std::cout << part2(argv[1]) << std::endl; // getJoltage2(battery);
-
+    std::cout << part2(argv[1]) << std::endl;
 }
