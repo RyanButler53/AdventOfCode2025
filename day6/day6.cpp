@@ -8,7 +8,7 @@
 #include <ranges>
 #include <print>
 #include <algorithm>
-#include <format>
+#include <concepts>
 #include <map>
 #include <utility>
 #include <functional>
@@ -16,23 +16,26 @@
 #include <numeric>
 #include <functional>
 
-void parse(std::filesystem::path file, std::vector<std::vector<int64_t>>& columns, std::vector<char>& ops){
-    std::ifstream in(file);
-    std::string line;
-
-    while(std::getline(in, line)){}
-
-    // Find all the first number after the spaces
-    std::vector<unsigned int> starts;
-    // iterate over the first row
+std::vector<int> getStarts(std::string line, std::vector<char>& ops){
+    std::vector<int> starts;
     bool prevSpace = true;
     for (unsigned int i = 0; i < line.size(); ++i){
-        if (line[i] != ' ' && prevSpace) { // found a number. 
+        if (line[i] != ' ' && prevSpace) { // found an op. 
             starts.push_back(i);
             ops.push_back(line[i]);
         }
         prevSpace = (line[i] == ' ');
     }
+    return starts;
+}
+
+void parse(std::filesystem::path file, std::vector<std::vector<int64_t>>& columns, std::vector<char>& ops){
+    std::ifstream in(file);
+    std::string line;
+
+    while(std::getline(in, line)){}
+    std::vector<int> starts= getStarts(line, ops);
+
     line.clear();
     in.close();
     // using the starts, parse into numbers.  One vector per column of numbers
@@ -60,16 +63,7 @@ void parse2(std::filesystem::path file, std::vector<std::vector<int64_t>>& colum
         grid.push_back(line);
     }
 
-    std::vector<int> starts;
-    // iterate over the first row
-    bool prevSpace = true;
-    for (unsigned int i = 0; i < line.size(); ++i){
-        if (line[i] != ' ' && prevSpace) { // found an op. 
-            starts.push_back(i);
-            ops.push_back(line[i]);
-        }
-        prevSpace = (line[i] == ' ');
-    }
+    std::vector<int> starts = getStarts(line, ops);
 
     columns.resize(starts.size());
     for (size_t start = 1; start < starts.size(); ++start){
@@ -117,21 +111,15 @@ int64_t fold(std::vector<std::vector<int64_t>>& columns, std::vector<char>& ops)
     return sum;
 }
 
-int64_t part1(std::filesystem::path file){
+template <typename F>
+int64_t solve(std::filesystem::path file, F parseFunction){
     std::vector<std::vector<int64_t>> columns;
     std::vector<char> ops;
-    parse(file, columns, ops);
-    return fold(columns, ops);
-}
-
-int64_t part2(std::filesystem::path file){
-    std::vector<std::vector<int64_t>> columns;
-    std::vector<char> ops;
-    parse2(file, columns, ops);
+    parseFunction(file, columns, ops);
     return fold(columns, ops);
 }
 
 int main(int argc, char** argv){
-    std::cout << part1(argv[1]) << std::endl;
-    std::cout << part2(argv[1]) << std::endl;
+    std::cout << solve(argv[1], parse) << std::endl;
+    std::cout << solve(argv[1], parse2) << std::endl;
 }
