@@ -38,7 +38,7 @@ int64_t part1(std::filesystem::path file){
     map[0][start] = '|';
     int splits = 0; // result
     // printVec(map);
-    for (size_t row_i = 0; row_i < map.size(); ++row_i){
+    for (size_t row_i = 0; row_i < map.size() - 1; ++row_i){
         // Row_i is current row, row_i + 1 is next row. row_i + 1 is an empty space row. 
         for (size_t char_i = 0; char_i < map[row_i].size(); ++char_i){
             // If the current row has a '.', do nothing. If it has a '|'
@@ -64,7 +64,7 @@ int64_t part2(std::filesystem::path file){
     Matrix<int64_t> numPaths(map.size(), map[0].size());
     std::fill(numPaths.data(), numPaths.data() + map.size() * map[0].size(), 0);
     numPaths(0, start) = 1;
-    for (size_t row_i = 0; row_i < map.size(); ++row_i){
+    for (size_t row_i = 0; row_i < map.size() - 1; ++row_i){
         // Row_i is current row, row_i + 1 is next row. row_i + 1 is an empty space row. 
         for (size_t char_i = 0; char_i < map[row_i].size(); ++char_i){
             // If the current row has a '.', do nothing. If it has a '|'
