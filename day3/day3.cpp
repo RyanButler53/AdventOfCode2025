@@ -32,7 +32,6 @@ int64_t joltage(const std::vector<int>& batteries, size_t k){
     Matrix<int64_t> table(k+1, n);
     // Base Case:  No more numbers to pick. Always 0
     for (size_t basecase = 0; basecase < n; ++basecase){
-        // table(basecase, 0) = 0;
         table(0, basecase) = 0;
     }
 

@@ -8,6 +8,12 @@ macro(addDay day)
     add_executable("day${day}" "day${day}/day${day}.cpp")
 endmacro()
 
+macro(addDayLib)
+    add_executable("day${day}" "day${day}/day${day}.cpp")
+    target_link_libraries(("day${day}" aoc))
+endmacro(addDayLib)
+
+
 addDay(1)
 addDay(2)
 addDay(3)
@@ -15,3 +21,4 @@ addDay(4)
 addDay(5)
 addDay(6)
 addDay(7)
+addDay(8)
