@@ -21,6 +21,11 @@ int64_t part2(std::filesystem::path file){
 }
 
 int main(int argc, char** argv){
+
+    if (argc < 2){
+        std::cout << "Needs filename argument" << std::endl;
+        return 0;
+    }
     std::cout << part1(argv[1]) << std::endl;
     std::cout << part2(argv[1]) << std::endl;
 }

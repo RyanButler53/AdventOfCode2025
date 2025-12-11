@@ -11,26 +11,9 @@
 #include <queue>
 #include <set>
 #include "kdtree.hpp"
+#include "aoc.hpp"
+
 using Point = std::array<int64_t, 3>;
-
-
-std::vector<std::string> splitString(std::string line, std::string delim){
-    return std::views::split(line, delim) | std::ranges::to<std::vector<std::string>>();
-}
-
-std::vector<int64_t> splitAndCast(std::string line, std::string delim){
-    std::vector<std::string> split = splitString(line, delim);
-    return split | std::views::transform([](std::string s){return stol(s);})  | std::ranges::to<std::vector<int64_t>>();
-}
-
-
-std::vector<std::string> readFileIntoStrings(std::filesystem::path file){
-    std::ifstream in(file);
-    std::string line;
-    std::vector<std::string> map;
-    while(std::getline(in, line)){map.push_back(line);}
-    return map;
-}
 
 // DFS to get the network of points corresponding with this point p
 std::set<Point> getNetwork(const std::map<Point, std::set<Point>>& adjlist, const std::vector<Point>& allPoints, const Point& p){
@@ -59,12 +42,12 @@ std::set<Point> getNetwork(const std::map<Point, std::set<Point>>& adjlist, cons
 
 
 int64_t part1(std::filesystem::path file, size_t nconn){
-    std::vector<std::string> lines = readFileIntoStrings(file);
+    std::vector<std::string> lines = aoc::readFileIntoStrings(file);
     std::vector<Point> points;
     KDTree<int64_t, 3> kdtree;
 
     for (auto line : lines){
-        std::vector<int64_t> pts = splitAndCast(line, ",");
+        std::vector<int64_t> pts = aoc::splitAndCast(line, ",");
         points.push_back({pts[0], pts[1], pts[2]});
         kdtree.insert(points.back());
     }
@@ -123,12 +106,12 @@ int64_t part1(std::filesystem::path file, size_t nconn){
 
 int64_t part2(std::filesystem::path file){
 
-    std::vector<std::string> lines = readFileIntoStrings(file);
+    std::vector<std::string> lines = aoc::readFileIntoStrings(file);
     std::vector<Point> points;
     KDTree<int64_t, 3> kdtree;
 
     for (auto line : lines){
-        std::vector<int64_t> pts = splitAndCast(line, ",");
+        std::vector<int64_t> pts = aoc::splitAndCast(line, ",");
         points.push_back({pts[0], pts[1], pts[2]});
         kdtree.insert(points.back());
     }
